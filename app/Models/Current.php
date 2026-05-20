@@ -11,7 +11,7 @@ class Current extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public static function getVehicleList($filter)
+    public static function getVehicleList($filter = '')
     {
         $currents = Current::from('currents as C')
             ->join('employees AS E', 'E.id', '=', 'C.emp_id')

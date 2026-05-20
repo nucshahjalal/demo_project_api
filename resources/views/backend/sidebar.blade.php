@@ -30,6 +30,24 @@
                     </li>
                     <li class="nxl-item nxl-hasmenu">
                         <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="bi bi-person-badge"></i></span>
+                            <span class="nxl-mtext">Student</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="{{route('student.create')}}">Create Student</a></li>
+                        </ul>
+                    </li>
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="bi bi-person-badge"></i></span>
+                            <span class="nxl-mtext">Idcard</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="{{route('idcard.create')}}">Create ID Card</a></li>
+                        </ul>
+                    </li>
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
                             <span class="nxl-micon"><i class="bi bi-box-seam"></i></span>
                             <span class="nxl-mtext">Product</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                         </a>
@@ -81,8 +99,33 @@
                     </li>
 
                     <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="bi bi-briefcase"></i></span>
+                            <span class="nxl-mtext">Vue Project</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="{{route('vue.vehicle-list')}}">Vehicle List</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="bi bi-globe"></i></span>
+                            <span class="nxl-mtext">Website Management</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="{{route('admin.slider.index')}}">Sliders</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{route('admin.notice.index')}}">Notices</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{route('admin.history.index')}}">Institute History</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{route('admin.speech.index')}}">Speeches</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{route('admin.admission.index')}}">Admissions</a></li>
+                        </ul>
+                    </li> 
+                    
+                    <li class="nxl-item nxl-hasmenu">
                         <li class="nxl-item"><a class="nxl-link" href="{{url('logout')}}"><span class="nxl-micon"><i class="feather-power"></i> </span><strong>Log Out</strong></a></li>
-                    </li>                              
+                    </li>
+                                                
                 </ul>
                 
             </div>

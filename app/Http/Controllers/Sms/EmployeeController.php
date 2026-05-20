@@ -16,7 +16,25 @@ class EmployeeController extends Controller
 
         $filter = $request->filter;
         $this->data['employees'] = Employee::getEmployeeList($filter);
+        // return view('sms.dd.index', $this->data);
+        // return view('sms.dd.index', $this->data);
+        // return view('sms.employee.index', $this->data);
         return view('sms.employee.index', $this->data);
+    }
+
+    public function apiIndex(Request $request){
+
+        $filter = $request->filter;
+        $employees = Employee::getEmployeeList($filter);
+        if ($employees) {
+        return response()->json([
+                "employees" => $employees
+            ]);
+        } else {
+            return response()->json([
+                "message" => "Failed to show employee"
+            ], 500);
+        }
     }
 
      public function empHistory(Request $request, $emp_id){
@@ -38,6 +56,36 @@ class EmployeeController extends Controller
 
     public function createForm(){
         return view('sms.employee.create');
+    }
+
+    public function apiStore(Request $request)
+    {
+        
+        $validated = $request->validate([
+            'emp_id' => 'required|string',
+            'name' => 'nullable|string',
+            'designation' => 'nullable|string',
+            'phone' => 'nullable|string',
+            'portfolio' => 'nullable|string',
+            'portfolio' => 'nullable|string',
+
+        ]);
+
+        // if($request->isMothod('post')){
+        //     $data = $request->all();
+
+        $save = Employee::create($validated);
+
+       if ($save) {
+        return response()->json([
+                "message" => "Employee created successfully"
+            ]);
+        } else {
+            return response()->json([
+                "message" => "Failed to create employee"
+            ], 500);
+        }
+        
     }
 
     public function store(Request $request)

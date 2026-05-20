@@ -27,7 +27,7 @@ class PortfolioController extends Controller
         $request->validate([
             'name' => ['required',],
         ], [
-            'name.required'   => 'Name id is required.',
+            'name.required'   => 'Name is required.',
         ]);
         
         $request->merge(['status'=> 1]); 
@@ -54,7 +54,7 @@ class PortfolioController extends Controller
         $request->validate([
             'name' => ['required',],
         ], [
-            'name.required'   => 'Name id is required.',
+            'name.required'   => 'Name is required.',
         ]);
 
         $portfolio->status = $request->status;
@@ -63,7 +63,7 @@ class PortfolioController extends Controller
         if($portfolio->update()){
             return redirect('portfolio/list')->with('success','Portfolio update successfull');
         }else{
-            return redirect('portfolio/edit/',$request->id)->with('error','Portfolio update failed');
+            return redirect('portfolio/edit/'.$request->id)->with('error','Portfolio update failed');
         }
     }
 

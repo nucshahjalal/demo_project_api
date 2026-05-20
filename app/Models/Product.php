@@ -11,15 +11,12 @@ class Product extends Model
     protected $guarded = [];
 
     public static function getProductList($filter) {
-        
-        $products = Employee::from('products as P')
-                    ->where('P.eng_no', 'like', '%'.$filter.'%')
-                    ->orWhere('P.chassis_no', 'like', '%'.$filter.'%')
+        $products = Product::from('products as P')
+                    ->where('P.name', 'like', '%'.$filter.'%')
                     ->orWhere('P.brand', 'like', '%'.$filter.'%')
                     ->orWhere('P.model', 'like', '%'.$filter.'%')
                     ->orderBy('P.id','desc')
                     ->paginate(10, array('P.*'));
         return $products;
     }
-  
 }

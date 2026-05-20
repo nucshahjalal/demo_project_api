@@ -1,20 +1,53 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\VueVehicleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Sms\EmployeeController;
 use App\Http\Controllers\Sms\ProductController;
 use App\Http\Controllers\Sms\VehicleController;
 use App\Http\Controllers\Sms\PortfolioController;
 use App\Http\Controllers\Sms\ReportController;
+use App\Http\Controllers\Sms\ItemController;
+use App\Http\Controllers\uploadController;
+use App\Http\Controllers\IdcardController;
+use App\Http\Controllers\StudentController;
+use App\Models\{Employee, Product, Current, Portfolio};
 
-Route::get('/', function () {
-    return view('welcome');
+//student
+Route::get('/student/create', [StudentController::class, 'index'])->name('student.create');
+Route::post('/student/save', [StudentController::class, 'store'])->name('student.save');
+Route::get('/idcard/create', [IdcardController::class, 'index'])->name('idcard.create');
+Route::post('/idcard/save', [IdcardController::class, 'store'])->name('idcard.save');
+Route::get('/card/print/{id}', [IdcardController::class, 'print'])->name('card.print');
+
+Route::get('/vue/vehicle', [VueVehicleController::class, 'index'])->name('vue.vehicle');
+Route::get('/vue/vehicle-data', [VueVehicleController::class, 'vehicleList']);
+Route::get('/vue/vehicle-list', [VueVehicleController::class, 'create'])->name('vue.vehicle-list');
+Route::post('/vehicle/save', [VueVehicleController::class, 'store']);
+Route::get('/api/employees', function () {
+    return \App\Models\Employee::where('status', 1)->get();
+});
+Route::post('/vue/vehicle/update-status', [VueVehicleController::class, 'updateStatus'])
+    ->name('vue.vehicle.update-status');
+Route::delete('/vue/vehicle/{id}', [VueVehicleController::class, 'destroy'])
+    ->name('vue.vehicle.destroy');
+
+Route::get('/vue/status_list', [VueVehicleController::class, 'getStatus'])->name('vue.status_list');
+Route::get('/api/products', function () {
+    return \App\Models\Product::where('status', 1)->get();
+});
+Route::get('/api/portfolios', function () {
+    return \App\Models\Portfolio::where('status', 1)->get();
 });
 
-Route::get('/dashboard', [DashboardController::class, 'dashboard'])
+Route::get('/', function () {
+    return view('auth.login');
+});
+
+Route::get('/dashboard', [dashboardController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
@@ -31,7 +64,10 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 require __DIR__.'/auth.php';
 
-// emplyee
+// card
+Route::get('/card/list/{studentId}', [dashboardController::class, 'showCard'])->name('card.list');
+
+// employee
 Route::get('/employee/list', [EmployeeController::class, 'index'])->name('employee.list');
 Route::get('/employee/create', [EmployeeController::class, 'createForm'])->name('employee.create');
 Route::post('/employee/save', [EmployeeController::class, 'store'])->name('employee.save');
@@ -41,7 +77,6 @@ Route::post('/employee/update', [EmployeeController::class, 'update'])->name('em
 Route::get('/employee/delete/{id}', [EmployeeController::class, 'destroy'])->name('employee.destroy');
 Route::get('/vehicle/employee-history/{id}', [EmployeeController::class, 'empHistory'])->name('vehicle.employee-history');
 Route::get('vehicle/employee-history/download-pdf/{emp_id}', [EmployeeController::class, 'empHistoryDownloadPdf']);
-
 
 // product
 Route::get('/product/list', [ProductController::class, 'index'])->name('product.list');
@@ -91,3 +126,60 @@ Route::get('/vehicle/eligible-user/export', [ReportController::class, 'eligibleU
 Route::get('/vehicle/assign-vehicle/export', [ReportController::class, 'assignVehicleDownloadExcel'])->name('vehicle.assign-vehicle.export');
 Route::get('/vehicle/eligible-user/download-pdf', [ReportController::class, 'eligibleUserDownloadPdf'])->name('vehicle.eligible-user.download-pdf');
 Route::get('/vehicle/assign-vehicle/download-pdf', [ReportController::class, 'assignVehicleDownloadPdf'])->name('vehicle.assign-vehicle.download-pdf');
+
+// item
+Route::get('/item/list', [ItemController::class, 'index'])->name('item.list');
+Route::get('/item/create', [ItemController::class, 'createForm'])->name('item.create');
+Route::post('/item/save', [ItemController::class, 'store'])->name('item.save');
+Route::get('/item/edit/{id}', [ItemController::class, 'editForm'])->name('item.edit');
+Route::post('/item/update', [ItemController::class, 'update'])->name('item.update');
+Route::get('/item/delete/{id}', [ItemController::class, 'destroy'])->name('item.destroy');
+
+// file upload
+Route::get('/upload/list', [uploadController::class, 'index'])->name('upload.list');
+Route::post('file/upload', [uploadController::class, 'upload'])->name('file.upload');
+
+// Admin Dashboard Content Management
+use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Admin\NoticeController;
+use App\Http\Controllers\Admin\InstituteHistoryController;
+use App\Http\Controllers\Admin\SpeechController;
+use App\Http\Controllers\Admin\AdmissionController;
+
+// Slider
+Route::get('/admin/slider/list', [SliderController::class, 'index'])->name('admin.slider.index');
+Route::get('/admin/slider/create', [SliderController::class, 'create'])->name('admin.slider.create');
+Route::post('/admin/slider/save', [SliderController::class, 'store'])->name('admin.slider.store');
+Route::get('/admin/slider/edit/{id}', [SliderController::class, 'edit'])->name('admin.slider.edit');
+Route::post('/admin/slider/update', [SliderController::class, 'update'])->name('admin.slider.update');
+Route::get('/admin/slider/delete/{id}', [SliderController::class, 'destroy'])->name('admin.slider.destroy');
+
+// Notice
+Route::get('/admin/notice/list', [NoticeController::class, 'index'])->name('admin.notice.index');
+Route::get('/admin/notice/create', [NoticeController::class, 'create'])->name('admin.notice.create');
+Route::post('/admin/notice/save', [NoticeController::class, 'store'])->name('admin.notice.store');
+Route::get('/admin/notice/edit/{id}', [NoticeController::class, 'edit'])->name('admin.notice.edit');
+Route::post('/admin/notice/update', [NoticeController::class, 'update'])->name('admin.notice.update');
+Route::get('/admin/notice/delete/{id}', [NoticeController::class, 'destroy'])->name('admin.notice.destroy');
+
+// Institute History
+Route::get('/admin/history/list', [InstituteHistoryController::class, 'index'])->name('admin.history.index');
+Route::get('/admin/history/create', [InstituteHistoryController::class, 'create'])->name('admin.history.create');
+Route::post('/admin/history/save', [InstituteHistoryController::class, 'store'])->name('admin.history.store');
+Route::get('/admin/history/edit/{id}', [InstituteHistoryController::class, 'edit'])->name('admin.history.edit');
+Route::post('/admin/history/update', [InstituteHistoryController::class, 'update'])->name('admin.history.update');
+Route::get('/admin/history/delete/{id}', [InstituteHistoryController::class, 'destroy'])->name('admin.history.destroy');
+
+// Speech
+Route::get('/admin/speech/list', [SpeechController::class, 'index'])->name('admin.speech.index');
+Route::get('/admin/speech/create', [SpeechController::class, 'create'])->name('admin.speech.create');
+Route::post('/admin/speech/save', [SpeechController::class, 'store'])->name('admin.speech.store');
+Route::get('/admin/speech/edit/{id}', [SpeechController::class, 'edit'])->name('admin.speech.edit');
+Route::post('/admin/speech/update', [SpeechController::class, 'update'])->name('admin.speech.update');
+Route::get('/admin/speech/delete/{id}', [SpeechController::class, 'destroy'])->name('admin.speech.destroy');
+
+// Admission (Public submit + Admin list)
+Route::post('/admission/save', [AdmissionController::class, 'store'])->name('admission.store');
+Route::get('/admin/admission/list', [AdmissionController::class, 'index'])->name('admin.admission.index');
+Route::get('/admin/admission/show/{id}', [AdmissionController::class, 'show'])->name('admin.admission.show');
+Route::get('/admin/admission/delete/{id}', [AdmissionController::class, 'destroy'])->name('admin.admission.destroy');
