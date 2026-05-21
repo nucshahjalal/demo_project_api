@@ -66,14 +66,14 @@
         <div class="collapse navbar-collapse" id="mNav">
             <div class="navbar-nav w-100 flex-wrap">
                 <a class="nav-link px-3 active bg-dark bg-opacity-25" href="#" id="menu-home">প্রথম পাতা</a>
-                <a class="nav-link px-3" href="#">শিক্ষক মণ্ডলী</a>
+                <a class="nav-link px-3" href="#" id="menu-teachers">শিক্ষক মণ্ডলী</a>
                 {{-- <a class="nav-link px-3 fw-bold text-primary" href="#" id="onlineAdmissionBtn">অনলাইন ভর্তি</a> --}}
-                <a class="nav-link px-3 fw-bold text-primary" href="#admissionSection" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="admissionSection" id="onlineAdmissionBtn">অনলাইন ভর্তি</a>
-                <a class="nav-link px-3" href="#">Gallery</a>
-                <a class="nav-link px-3" href="#">পরীক্ষা সংক্রান্ত</a>
+                <a class="nav-link px-3 fw-bold text-primary" href="#" id="onlineAdmissionBtn">অনলাইন ভর্তি</a>
+                <a class="nav-link px-3" href="#" id="menu-gallery">Gallery</a>
+                <a class="nav-link px-3" href="#" id="menu-exam">পরীক্ষা সংক্রান্ত</a>
                 <a class="nav-link px-3" href="#" id="menu-student-info">Student Information</a>
-                <a class="nav-link px-3" href="#">নোটিশ</a>
-                <a class="nav-link px-3 border-0" href="#">যোগাযোগ</a>
+                <a class="nav-link px-3" href="#" id="menu-notice">নোটিশ</a>
+                <a class="nav-link px-3 border-0" href="#" id="menu-contact">যোগাযোগ</a>
             </div>
         </div>
     </nav>
@@ -239,6 +239,145 @@
                                 @empty
                                 <div class="col-12 text-center text-muted py-5">কোন শিক্ষার্থীর তথ্য পাওয়া যায়নি</div>
                                 @endforelse --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- teachers section --}}
+                <div id="teachers-view-content" class="d-none">
+                    <div class="card mb-4 border border-light shadow-sm">
+                        <div class="card-header bg-custom-blue text-white fw-bold py-2"><i class="bi bi-people-fill me-1"></i> শিক্ষক মণ্ডলী</div>
+                        <div class="card-body bg-light bg-opacity-25">
+                            <div class="row g-3 row-cols-1 row-cols-sm-2 row-cols-md-3">
+                                @forelse($teachers as $teacher)
+                                <div class="col">
+                                    <div class="card h-100 border shadow-sm text-center p-3">
+                                        <div class="rounded-circle bg-primary bg-opacity-10 mx-auto mb-2 d-flex align-items-center justify-content-center" style="width: 100px; height: 100px;">
+                                            <i class="bi bi-person-fill fs-1 text-primary"></i>
+                                        </div>
+                                        <h6 class="fw-bold mb-0">{{ $teacher->name }}</h6>
+                                        <small class="text-muted">{{ $teacher->designation ?? 'শিক্ষক' }}</small>
+                                    </div>
+                                </div>
+                                @empty
+                                <div class="col-12 text-center text-muted py-4">কোন শিক্ষকের তথ্য পাওয়া যায়নি</div>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- gallery section --}}
+                <div id="gallery-view-content" class="d-none">
+                    <div class="card mb-4 border border-light shadow-sm">
+                        <div class="card-header bg-custom-blue text-white fw-bold py-2"><i class="bi bi-images me-1"></i> Gallery</div>
+                        <div class="card-body bg-light bg-opacity-25">
+                            <div class="row g-3 row-cols-1 row-cols-sm-2 row-cols-md-4">
+                                @forelse($slides as $slide)
+                                <div class="col">
+                                    <div class="card border-0 shadow-sm h-100">
+                                        <img src="{{ $slide->image }}" class="card-img-top" style="height: 180px; object-fit: cover;">
+                                        @if($slide->caption)
+                                        <div class="card-body p-2 text-center">
+                                            <small class="text-muted">{{ $slide->caption }}</small>
+                                        </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                @empty
+                                <div class="col-12 text-center text-muted py-4">কোন ছবি পাওয়া যায়নি</div>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- exam section --}}
+                <div id="exam-view-content" class="d-none">
+                    <div class="card mb-4 border border-light shadow-sm">
+                        <div class="card-header bg-custom-blue text-white fw-bold py-2"><i class="bi bi-journal-bookmark-fill me-1"></i> পরীক্ষা সংক্রান্ত</div>
+                        <div class="card-body bg-light bg-opacity-25">
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle-fill me-1"></i> পরীক্ষার রুটিন ও ফলাফল সম্পর্কিত তথ্য শীঘ্রই যোগ করা হবে।
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="card border shadow-sm p-3 text-center">
+                                        <i class="bi bi-calendar-check fs-1 text-primary mb-2"></i>
+                                        <h6 class="fw-bold">পরীক্ষার রুটিন</h6>
+                                        <p class="small text-muted mb-0">আগামী পরীক্ষার সময়সূচী</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border shadow-sm p-3 text-center">
+                                        <i class="bi bi-file-earmark-text fs-1 text-success mb-2"></i>
+                                        <h6 class="fw-bold">ফলাফল</h6>
+                                        <p class="small text-muted mb-0">পরীক্ষার ফলাফল প্রকাশিত হবে</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- notice full section --}}
+                <div id="notice-view-content" class="d-none">
+                    <div class="card mb-4 border border-light shadow-sm">
+                        <div class="card-header bg-custom-blue text-white fw-bold py-2"><i class="bi bi-megaphone-fill me-1"></i> সকল নোটিশ</div>
+                        <div class="card-body bg-light bg-opacity-25">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr><th>তারিখ</th><th>শিরোনাম</th><th>বিস্তারিত</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($notices as $notice)
+                                        <tr>
+                                            <td>{{ $notice->notice_date ? date('d/m/Y', strtotime($notice->notice_date)) : '' }}</td>
+                                            <td class="fw-bold">{{ $notice->title }}</td>
+                                            <td>{{ $notice->description ?? '' }}</td>
+                                        </tr>
+                                        @empty
+                                        <tr><td colspan="3" class="text-center text-muted">কোন নোটিশ নেই</td></tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- contact section --}}
+                <div id="contact-view-content" class="d-none">
+                    <div class="card mb-4 border border-light shadow-sm">
+                        <div class="card-header bg-custom-blue text-white fw-bold py-2"><i class="bi bi-telephone-fill me-1"></i> যোগাযোগ</div>
+                        <div class="card-body bg-light bg-opacity-25">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="card border shadow-sm p-4 h-100">
+                                        <h6 class="fw-bold text-danger"><i class="bi bi-geo-alt-fill me-1"></i> ঠিকানা</h6>
+                                        <p class="mb-1">পোঃ বাতাইছড়ি, উপজেলাঃ বরুড়া, জেলাঃ কুমিল্লা</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border shadow-sm p-4 h-100">
+                                        <h6 class="fw-bold text-success"><i class="bi bi-telephone-fill me-1"></i> ফোন</h6>
+                                        <p class="mb-1">+৮৮০১৭XXXXXXXX</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border shadow-sm p-4 h-100">
+                                        <h6 class="fw-bold text-primary"><i class="bi bi-envelope-fill me-1"></i> ইমেইল</h6>
+                                        <p class="mb-1">info@bataichharimadrasah.edu.bd</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border shadow-sm p-4 h-100">
+                                        <h6 class="fw-bold text-warning"><i class="bi bi-globe me-1"></i> ওয়েবসাইট</h6>
+                                        <p class="mb-1">www.bataichharimadrasah.edu.bd</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -520,53 +659,64 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bundle.min.js"></script>
-    
     <script>
         const mainContentArea = document.getElementById('main-content-area');
         const rightSidebarArea = document.getElementById('right-sidebar-area');
 
-        document.getElementById('menu-student-info').addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Toggle Active Links
-            document.getElementById('menu-home').classList.remove('active', 'bg-dark', 'bg-opacity-25');
-            this.classList.add('active', 'bg-dark', 'bg-opacity-25');
-            
-            // Hide Banner/Slider Area
-            document.getElementById('main-hero-sections').classList.add('d-none');
-            
-            // Core Change: Shift Content Column Layout to Full Width & Hide Sidebar
+        const allContentIds = ['home-view-content', 'home-bottom-links', 'student-info-view-content', 'teachers-view-content', 'gallery-view-content', 'exam-view-content', 'notice-view-content', 'contact-view-content', 'admissionSection', 'main-hero-sections'];
+
+        function hideAllSections() {
+            allContentIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.add('d-none');
+                    if (id === 'admissionSection') el.style.display = '';
+                }
+            });
+        }
+
+        function deactivateAllMenus() {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active', 'bg-dark', 'bg-opacity-25');
+            });
+        }
+
+        function setFullLayout() {
             mainContentArea.classList.remove('col-lg-9');
             mainContentArea.classList.add('col-lg-12');
             rightSidebarArea.classList.add('d-none');
+        }
 
-            // Toggle Domestic Views
-            document.getElementById('home-view-content').classList.add('d-none');
-            document.getElementById('home-bottom-links').classList.add('d-none');
-            document.getElementById('student-info-view-content').classList.remove('d-none');
-        });
-
-        document.getElementById('menu-home').addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Toggle Active Links
-            document.getElementById('menu-student-info').classList.remove('active', 'bg-dark', 'bg-opacity-25');
-            this.classList.add('active', 'bg-dark', 'bg-opacity-25');
-            
-            // Show Banner/Slider Area
-            document.getElementById('main-hero-sections').classList.remove('d-none');
-            
-            // Core Change: Restore Sidebar Layout System
+        function setHomeLayout() {
             mainContentArea.classList.remove('col-lg-12');
             mainContentArea.classList.add('col-lg-9');
             rightSidebarArea.classList.remove('d-none');
-            
-            // Toggle Domestic Views
-            document.getElementById('home-view-content').classList.remove('d-none');
-            document.getElementById('home-bottom-links').classList.remove('d-none');
-            document.getElementById('student-info-view-content').classList.add('d-none');
-        });
+        }
+
+        function bindMenu(menuId, contentIdsToShow, useFullLayout = true, showHero = false) {
+            const menuEl = document.getElementById(menuId);
+            if (!menuEl) return;
+            menuEl.addEventListener('click', function(e) {
+                e.preventDefault();
+                deactivateAllMenus();
+                this.classList.add('active', 'bg-dark', 'bg-opacity-25');
+                hideAllSections();
+                if (showHero) document.getElementById('main-hero-sections').classList.remove('d-none');
+                if (useFullLayout) setFullLayout(); else setHomeLayout();
+                contentIdsToShow.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) { el.classList.remove('d-none'); if (id === 'admissionSection') el.style.display = 'block'; }
+                });
+            });
+        }
+
+        bindMenu('menu-home', ['main-hero-sections', 'home-view-content', 'home-bottom-links'], false, true);
+        bindMenu('menu-student-info', ['student-info-view-content']);
+        bindMenu('menu-teachers', ['teachers-view-content']);
+        bindMenu('menu-gallery', ['gallery-view-content']);
+        bindMenu('menu-exam', ['exam-view-content']);
+        bindMenu('menu-notice', ['notice-view-content']);
+        bindMenu('menu-contact', ['contact-view-content']);
     </script>
     
     <!-- notice modal -->
@@ -600,70 +750,15 @@
 
                 admissionBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-
-                    // Active menu style
-                    document.querySelectorAll('.nav-link').forEach(link => {
-                        link.classList.remove('active', 'bg-dark', 'bg-opacity-25');
-                    });
-
+                    deactivateAllMenus();
                     this.classList.add('active', 'bg-dark', 'bg-opacity-25');
-
-                    // Hide Hero Slider Section
-                    document.getElementById('main-hero-sections').classList.add('d-none');
-
-                    // Full width content
-                    mainContentArea.classList.remove('col-lg-9');
-                    mainContentArea.classList.add('col-lg-12');
-
-                    // Hide sidebar
-                    rightSidebarArea.classList.add('d-none');
-
-                    // Hide other sections
-                    document.getElementById('home-view-content').classList.add('d-none');
-                    document.getElementById('home-bottom-links').classList.add('d-none');
-                    document.getElementById('student-info-view-content').classList.add('d-none');
-
-                    // Show admission form
+                    hideAllSections();
+                    setFullLayout();
                     admissionSection.classList.remove('d-none');
                     admissionSection.style.display = 'block';
-
-                    // Smooth scroll
                     setTimeout(() => {
-                        admissionSection.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+                        admissionSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }, 100);
-                });
-
-                // Home button restore
-                document.getElementById('menu-home').addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    // Active style reset
-                    document.querySelectorAll('.nav-link').forEach(link => {
-                        link.classList.remove('active', 'bg-dark', 'bg-opacity-25');
-                    });
-
-                    this.classList.add('active', 'bg-dark', 'bg-opacity-25');
-
-                    // Show Hero
-                    document.getElementById('main-hero-sections').classList.remove('d-none');
-
-                    // Restore layout
-                    mainContentArea.classList.remove('col-lg-12');
-                    mainContentArea.classList.add('col-lg-9');
-
-                    // Show sidebar
-                    rightSidebarArea.classList.remove('d-none');
-
-                    // Show home sections
-                    document.getElementById('home-view-content').classList.remove('d-none');
-                    document.getElementById('home-bottom-links').classList.remove('d-none');
-
-                    // Hide other sections
-                    document.getElementById('student-info-view-content').classList.add('d-none');
-                    admissionSection.classList.add('d-none');
                 });
 
             }

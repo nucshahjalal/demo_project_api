@@ -46,6 +46,7 @@ class dashboardController extends Controller
         $this->data['president_speech'] = Speech::where('type', 'president')->where('status', true)->first();
         $this->data['principal_speech'] = Speech::where('type', 'principal')->where('status', true)->first();
        // $this->data['students'] = Student::all();
+        $this->data['teachers'] = Employee::where('status', 1)->get();
 
         return view('backend.dashboard', $this->data);
     }
