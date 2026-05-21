@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-12 col-md-auto d-flex justify-content-center">
                     <div class="bg-danger text-white p-2.5 rounded shadow-sm border border-danger fw-bold">
-                        মুজিব শতবর্ষ ও সুবর্ণজয়ন্তী
+                         শতবর্ষ ও সুবর্ণজয়ন্তী
                     </div>
                 </div>
             </div>
