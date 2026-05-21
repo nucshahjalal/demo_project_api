@@ -1,0 +1,52 @@
+global-school
+stead fast : ms102030@al
+==live project ===
+https://transport.supplychainhorizon.com/  == sms project
+https://quiz.yrc-bd.com/   == quiz project
+
+https://elements.envato.com/quizo-questionnaire-multistep-quiz-form-wizard-LFT9DT3
+https://elements.envato.com/magnifica-questionnaire-form-wizard-SGKEL6W
+
+======
+https://www.ansonika.com/magnifica/demo.html?storefront=envato-elements
+https://jthemes.net/themes/html/quizo/demo/?storefront=envato-elements
+=====
+
+https://elements.envato.com/qoisa-application-forms-quiz-survey-template-78GYPPL
+https://elements.envato.com/fimro-survey-poll-quiz-form-price-quote-template-H6696UC
+
+====aci link====
+https://acipanel.com/doc/#/minified:rI == documentation
+https://quiz.yrc-bd.com == quiz
+http://dsf.acimotorsservice.com/ == dsf
+https://transport.supplychainhorizon.com/ == sms
+https://ys.acimotorsservice.com/ == (yamaha@gmail.com = 123456)
+https://msr.acimotorsservice.com/  == msr
+https://dashboard.acimarine.com/  == marine engine
+https://ecoflow.supplychainhorizon.com/  == echofolow
+https://dmr.yrc-bd.com/  == dmr
+
+A0001
+https://codetroopers-team.com/single/academic/section/index
+https://github.com/acimotorsapp/DSF-ADMIN.git   == all link
+
+==git link bahir korar system===
+git remote -v (project terminal dite hobe)
+
+== git link ===
+https://bitbucket.org/acimotors/sms.git
+https://bitbucket.org/acimotors/msr.git
+https://github.com/acimotorsapp/DSF-ADMIN.git
+
+==auto data save extention=====
+https://chromewebstore.google.com/detail/fake-filler/bnjjngeaknajbdcgpfkgnonkmififhfo
+chrome-extension://eifflpmocdbdmepbjaopkkhbfmdgijcc/index.html#
+
+
+=====table bangla support=====
+ALTER TABLE `inquiries` 
+CONVERT TO CHARACTER SET utf8mb4 
+COLLATE utf8mb4_unicode_ci;
+
+       
+    
