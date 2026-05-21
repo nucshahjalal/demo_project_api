@@ -67,6 +67,9 @@ require __DIR__.'/auth.php';
 // card
 Route::get('/card/list/{studentId}', [dashboardController::class, 'showCard'])->name('card.list');
 
+// notice pdf download
+Route::get('/notice/download-pdf/{id}', [dashboardController::class, 'downloadNoticePdf'])->name('notice.download-pdf');
+
 // employee
 Route::get('/employee/list', [EmployeeController::class, 'index'])->name('employee.list');
 Route::get('/employee/create', [EmployeeController::class, 'createForm'])->name('employee.create');

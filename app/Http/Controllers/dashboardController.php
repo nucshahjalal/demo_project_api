@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{Employee, Product, Current, Portfolio,Student,IdCardSetting, Slide, Notice, InstituteHistory, Speech, Admission};
+use Barryvdh\DomPDF\Facade\Pdf;
 use DB;
 
 class dashboardController extends Controller
@@ -56,5 +57,13 @@ class dashboardController extends Controller
         $this->data['student'] = Student::findOrFail($studentId);
         $this->data['cardSetting'] = IdCardSetting::first();
         return view('card', $this->data);
+    }
+
+    public function downloadNoticePdf($id)
+    {
+        $notice = Notice::findOrFail($id);
+        $pdf = Pdf::loadView('notice-pdf', compact('notice'));
+        $filename = str_replace(['/', '\\', ' '], '_', $notice->title) . '.pdf';
+        return $pdf->download($filename);
     }
 }

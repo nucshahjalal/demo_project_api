@@ -136,7 +136,12 @@
                                     <ul class="list-unstyled mb-0">
                                         @forelse($notices->take(5) as $notice)
                                         <li class="py-2 border-bottom d-flex justify-content-between align-items-center">
-                                            <a href="#" class="text-decoration-none text-dark fw-bold" data-bs-toggle="modal" data-bs-target="#allDataModal">
+                                            <a href="#" class="text-decoration-none text-dark fw-bold notice-link"
+                                               data-id="{{ $notice->id }}"
+                                               data-title="{{ $notice->title }}"
+                                               data-description="{{ $notice->description ?? '' }}"
+                                               data-date="{{ $notice->notice_date ? date('d/m/Y', strtotime($notice->notice_date)) : '' }}"
+                                               data-category="{{ $notice->category ?? 'সাধারণ' }}">
                                                 <i class="bi bi-caret-right-fill text-danger small"></i> {{ $notice->title }}
                                             </a>
                                             <span class="badge bg-secondary p-2">{{ $notice->notice_date ? date('d/m/Y', strtotime($notice->notice_date)) : '' }}</span>
@@ -146,7 +151,7 @@
                                         @endforelse
                                         @if($notices->count() > 5)
                                         <li class="py-2 text-center">
-                                            <span class="badge bg-secondary p-2" data-bs-toggle="modal" data-bs-target="#allDataModal" style="cursor: pointer;">সকল নোটিশ দেখুন</span>
+                                            <span class="badge bg-secondary p-2" id="allNoticesBtn" style="cursor: pointer;">সকল নোটিশ দেখুন</span>
                                         </li>
                                         @endif
                                     </ul>
@@ -335,8 +340,17 @@
                                         @forelse($notices as $notice)
                                         <tr>
                                             <td>{{ $notice->notice_date ? date('d/m/Y', strtotime($notice->notice_date)) : '' }}</td>
-                                            <td class="fw-bold">{{ $notice->title }}</td>
-                                            <td>{{ $notice->description ?? '' }}</td>
+                                            <td>
+                                                <a href="#" class="text-decoration-none text-dark fw-bold notice-link"
+                                                   data-id="{{ $notice->id }}"
+                                                   data-title="{{ $notice->title }}"
+                                                   data-description="{{ $notice->description ?? '' }}"
+                                                   data-date="{{ $notice->notice_date ? date('d/m/Y', strtotime($notice->notice_date)) : '' }}"
+                                                   data-category="{{ $notice->category ?? 'সাধারণ' }}">
+                                                    {{ $notice->title }}
+                                                </a>
+                                            </td>
+                                            <td>{{ Str::limit($notice->description ?? '', 80) }}</td>
                                         </tr>
                                         @empty
                                         <tr><td colspan="3" class="text-center text-muted">কোন নোটিশ নেই</td></tr>
@@ -608,53 +622,31 @@
         </div>
     </footer>
 
-    {{-- show modal notice --}}
-    <div class="modal fade" id="allDataModal" tabindex="-1" aria-labelledby="allDataModalLabel" aria-hidden="true">
+    {{-- show single notice modal --}}
+    <div class="modal fade" id="noticeModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content shadow-lg border-0">
-                
                 <div class="modal-header bg-custom-blue text-white">
-                    <h5 class="modal-title fw-bold" id="allDataModalLabel">
-                        <i class="bi bi-info-circle-fill me-2"></i> নোটিশ ও নোটিফিকেশন বিবরণী
+                    <h5 class="modal-title fw-bold" id="noticeModalLabel">
+                        <i class="bi bi-megaphone-fill me-2"></i> নোটিশ
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                
                 <div class="modal-body p-4">
-                    <div class="alert alert-info py-2 small">
-                        <i class="bi bi-megaphone-fill me-1"></i> বাতাইছড়ি দাখিল মাদ্রাসা নোটিশ নোটিফিকেশন বুকের সমস্ত ডেটা নিচে দেওয়া হলো।
+                    <div class="mb-3">
+                        <span class="badge bg-secondary" id="noticeDate"></span>
+                        <span class="badge bg-success ms-2" id="noticeCategory"></span>
                     </div>
-                    
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>তারিখ</th>
-                                    <th>নোটিশের বিষয়</th>
-                                    <th>শাখা</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($notices as $notice)
-                                <tr>
-                                    <td>{{ $notice->notice_date ? date('d/m/Y', strtotime($notice->notice_date)) : '' }}</td>
-                                    <td>{{ $notice->title }}</td>
-                                    <td><span class="badge bg-{{ $notice->category == 'সাধারণ' ? 'success' : 'primary' }}">{{ $notice->category ?? 'সাধারণ' }}</span></td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="3" class="text-center text-muted">কোন নোটিশ পাওয়া যায়নি</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
+                    <h4 class="fw-bold text-dark mb-3" id="noticeTitle"></h4>
+                    <hr>
+                    <p class="text-secondary" id="noticeDescription" style="line-height: 1.8; white-space: pre-wrap;"></p>
                 </div>
-                
-                <div class="modal-footer bg-light">
+                <div class="modal-footer bg-light d-flex justify-content-between">
+                    <a href="#" class="btn btn-danger px-4" id="noticePdfDownload">
+                        <i class="bi bi-file-earmark-pdf me-1"></i> PDF Download
+                    </a>
                     <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">বন্ধ করুন</button>
                 </div>
-                
             </div>
         </div>
     </div>
@@ -717,24 +709,33 @@
         bindMenu('menu-exam', ['exam-view-content']);
         bindMenu('menu-notice', ['notice-view-content']);
         bindMenu('menu-contact', ['contact-view-content']);
+
+        // Notice modal
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('.notice-link');
+            if (!link) return;
+            e.preventDefault();
+            const id = link.dataset.id;
+            document.getElementById('noticeTitle').textContent = link.dataset.title;
+            document.getElementById('noticeDate').textContent = link.dataset.date;
+            document.getElementById('noticeCategory').textContent = link.dataset.category;
+            document.getElementById('noticeDescription').textContent = link.dataset.description;
+            document.getElementById('noticePdfDownload').href = "{{ url('notice/download-pdf') }}/" + id;
+            new bootstrap.Modal(document.getElementById('noticeModal')).show();
+        });
+
+        // All notices button
+        const allNoticesBtn = document.getElementById('allNoticesBtn');
+        if (allNoticesBtn) {
+            allNoticesBtn.addEventListener('click', function() {
+                const noticeMenu = document.getElementById('menu-notice');
+                if (noticeMenu) noticeMenu.click();
+            });
+        }
     </script>
     
     <!-- notice modal -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const openButtons = document.querySelectorAll('[data-bs-target="#allDataModal"]');
-            const myModal = new bootstrap.Modal(document.getElementById('allDataModal'));
-
-            openButtons.forEach(button => {
-                button.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    myModal.show(); // Force show the modal
-                });
-            });
-        });
-    </script>
     
     {{--  adminssion form show --}}
     <script>
